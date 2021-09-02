@@ -123,38 +123,35 @@ private fun PlaceCard(place: Place, thumbImgRes: Int, locImgRes: Int, ratingImgR
                 )
             }
             Row(modifier = Modifier
-                .fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Row {
-                    Image(modifier = Modifier
-                        .size(64.dp, 64.dp),
-                        painter = painterResource(id = thumbImgRes),
-                        contentDescription = null)
-                    Column {
-                        Text(text = place.name,
+                .fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+                Image(modifier = Modifier
+                    .size(64.dp, 64.dp),
+                    painter = painterResource(id = thumbImgRes),
+                    contentDescription = null)
+                Column(modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center) {
+                    Text(text = place.name,
+                        style = TextStyle(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.SansSerif
+                        ))
+                    Text(text = place.category,
+                        style = TextStyle(
+                            color = Color.White,
+                            fontFamily = FontFamily.SansSerif
+                        ))
+                    Spacer(Modifier.height(16.dp))
+                    Row {
+                        Image(painter = painterResource(locImgRes),
+                            contentDescription = null)
+                        Spacer(Modifier.height(8.dp))
+                        Text(text = place.location,
                             style = TextStyle(
                                 color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.SansSerif
+                                fontFamily = FontFamily.SansSerif,
+                                fontSize = TextUnit(12f, TextUnitType.Sp)
                             ))
-                        Text(text = place.category,
-                            style = TextStyle(
-                                color = Color.White,
-                                fontFamily = FontFamily.SansSerif
-                            ))
-                        Spacer(Modifier.height(16.dp))
-                        Row {
-                            Image(painter = painterResource(locImgRes),
-                                contentDescription = null)
-                            Spacer(Modifier.height(8.dp))
-                            Text(text = place.location,
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontFamily = FontFamily.SansSerif,
-                                    fontSize = TextUnit(12f, TextUnitType.Sp)
-                                ))
-                        }
                     }
                 }
                 Column(modifier = Modifier
