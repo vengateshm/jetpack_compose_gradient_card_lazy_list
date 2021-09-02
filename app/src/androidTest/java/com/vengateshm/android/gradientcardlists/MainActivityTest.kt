@@ -1,7 +1,5 @@
 package com.vengateshm.android.gradientcardlists
 
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -85,12 +83,6 @@ class MainActivityTest {
                 .onLast()
                 .assertHasNoClickAction()
         }
-    }
-}
-
-fun hasGivenPlaceName(placeName: String): SemanticsMatcher {
-    return SemanticsMatcher(description = "ddd") { node ->
-        node.config.getOrNull(SemanticsProperties.Text)?.first()?.text == placeName
     }
 }
 
