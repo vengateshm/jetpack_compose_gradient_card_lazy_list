@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -31,6 +32,7 @@ import com.vengateshm.android.gradientcardlists.R
 import com.vengateshm.android.gradientcardlists.model.Place
 import com.vengateshm.android.gradientcardlists.presentation.viewmodel.MainViewModel
 import com.vengateshm.android.gradientcardlists.ui.theme.GradientCardListsTheme
+import com.vengateshm.android.gradientcardlists.utils.MAIN_PLACES_LIST
 import com.vengateshm.android.gradientcardlists.utils.toColorFormat
 
 class MainActivity : ComponentActivity() {
@@ -46,36 +48,51 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             GradientCardListsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Scaffold(
-                        topBar = {
-                            TopAppBar(title = {
-                                Text(text = "Food Places",
-                                    style = TextStyle(
-                                        color = Color.White,
-                                        fontFamily = FontFamily.SansSerif,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = TextUnit(20f, TextUnitType.Sp)
-                                    ))
-                            })
-                        }) {
-                        LazyColumn(contentPadding = PaddingValues(
-                            start = 8.dp, end = 8.dp, bottom = 8.dp
-                        )) {
-                            items(places.value) { place ->
-                                Spacer(Modifier.height(8.dp))
-                                PlaceCard(Place(place.name,
-                                    place.category,
-                                    place.location,
-                                    place.rating,
-                                    place.linearGradientStartColor,
-                                    place.linearGradientEndColor),
-                                    R.drawable.thumb_image,
-                                    R.drawable.ic_baseline_location_on_24,
-                                    R.drawable.ic_baseline_star_rate_24)
-                            }
-                        }
+                MainScreenContent(places.value)
+            }
+        }
+    }
+}
+
+@ExperimentalUnitApi
+@Composable
+fun MainScreenContent(places: List<Place>) {
+    // A surface container using the 'background' color from the theme
+    Surface(color = MaterialTheme.colors.background) {
+        Scaffold(
+            topBar = {
+                TopAppBar(title = {
+                    Text(text = "Food Places",
+                        style = TextStyle(
+                            color = Color.White,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = TextUnit(20f, TextUnitType.Sp)
+                        ))
+                })
+            }) {
+            if (places.isEmpty()) {
+                Box(modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center) {
+                    Text(text = "No Places found.")
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.testTag(MAIN_PLACES_LIST),
+                    contentPadding = PaddingValues(
+                        start = 8.dp, end = 8.dp, bottom = 8.dp
+                    )) {
+                    items(places) { place ->
+                        Spacer(Modifier.height(8.dp))
+                        PlaceCard(Place(place.name,
+                            place.category,
+                            place.location,
+                            place.rating,
+                            place.linearGradientStartColor,
+                            place.linearGradientEndColor),
+                            R.drawable.thumb_image,
+                            R.drawable.ic_baseline_location_on_24,
+                            R.drawable.ic_baseline_star_rate_24)
                     }
                 }
             }
@@ -128,7 +145,8 @@ private fun PlaceCard(place: Place, thumbImgRes: Int, locImgRes: Int, ratingImgR
                     .size(64.dp, 64.dp),
                     painter = painterResource(id = thumbImgRes),
                     contentDescription = null)
-                Column(modifier = Modifier.weight(1f),
+                Column(modifier = Modifier
+                    .weight(1f),
                     verticalArrangement = Arrangement.Center) {
                     Text(text = place.name,
                         style = TextStyle(
