@@ -34,5 +34,5 @@ object PlaceService {
             2.8,
             "#42E695",
             "#3BB2B8")
-    ).shuffled()
+    )
 }

@@ -66,22 +66,28 @@ class MainActivityTest {
 
     @ExperimentalUnitApi
     @Test
-    fun testPlacesListFirstAndLastItemHasNoClickAction() {
+    fun testPlacesListFirstAndLastItem() {
         mainViewModel.getAllPlaces()
-        androidComposeTestRule.onRoot().printToLog("RASH")
         androidComposeTestRule.launchMainScreen(mainViewModel.places.value)
+
+        androidComposeTestRule.onRoot().printToLog("TAG")
+
         androidComposeTestRule.apply {
             onNodeWithTag(MAIN_PLACES_LIST)
                 .assertIsDisplayed()
                 .onChildren()
                 .onFirst()
-                .assertHasNoClickAction()
+                .onChildren()
+                .assertCountEquals(5)
+                .assertAny(hasText("Dubai Mall Food Court"))
 
             onNodeWithTag(MAIN_PLACES_LIST)
                 .assertIsDisplayed()
                 .onChildren()
                 .onLast()
-                .assertHasNoClickAction()
+                .onChildren()
+                .assertCountEquals(5)
+                .assertAny(hasText("2.8"))
         }
     }
 }
