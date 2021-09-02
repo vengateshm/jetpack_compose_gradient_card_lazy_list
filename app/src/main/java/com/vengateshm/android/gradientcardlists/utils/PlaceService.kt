@@ -29,7 +29,7 @@ object PlaceService {
             "#D76EF5",
             "#8F7AFE"),
         Place("BurJuman Food Court",
-            "Self service . Stand in",
+            "Self service · Stand in",
             "Dubai · In BurJuman",
             2.8,
             "#42E695",
